@@ -20,14 +20,14 @@ button{padding:16px 0;border:0;border-radius:8px;font-size:17px;color:#fff;curso
 
 <div class="btn-grid">
 <button onclick="sendRGB('255,0,0')" style="background:#ff2222;">赤</button>
-<button onclick="sendRGB('255,110,0')" style="background:#ff7800;">橙</button>
+<button onclick="sendRGB('255,120,0')" style="background:#ff7800;">橙</button>
 <button onclick="sendRGB('255,255,0')" style="background:#ffdd00;color:#000;">黄</button>
 
 <button onclick="sendRGB('0,220,0')" style="background:#00c030;">绿</button>
-<button onclick="sendRGB('0,220,180')" style="background:#00c8b0;">青</button>
-<button onclick="sendRGB('0,80,255')" style="background:#0058ff;">蓝</button>
+<button onclick="sendRGB('0,255,255')" style="background:#00ffff;">青</button>
+<button onclick="sendRGB('0,0,255')" style="background:#0000ff;">蓝</button>
 
-<button onclick="sendRGB('160,0,220')" style="background:#9000dd;">紫</button>
+<button onclick="sendRGB('128,0,255')" style="background:#8000ff;">紫</button>
 <button onclick="sendRGB('255,255,255')" style="background:#f8f8f8;color:#000;">白</button>
 
 <button onclick="sendRGB('0,0,0')" style="background:#333;grid-column:1/4;">关灯</button>
@@ -35,13 +35,13 @@ button{padding:16px 0;border:0;border-radius:8px;font-size:17px;color:#fff;curso
 </div>
 
 <script>
-// =====================【务必修改为你自己信息】=====================
+// =====================【修改你的MQTT信息】=====================
 const mqtt_host = "i11884f9.ala.cn-hangzhou.emqxsl.cn";
 const mqtt_port = 8084;
 const mqtt_user = "esp-rgb01";
 const mqtt_pwd  = "rgb666888";
 const pub_topic = "light/rgb/cmd";
-// =================================================================
+// ============================================================
 
 const clientId = "web_" + Math.random().toString(16).slice(2);
 const url = `wss://${mqtt_host}:${mqtt_port}/mqtt`;
@@ -54,7 +54,6 @@ const client = mqtt.connect(url, {
 const statusDom = document.getElementById("status");
 let lastCmd = "";
 
-//发送指令 QoS=1，保证可靠送达
 function sendRGB(payload){
   if(payload === lastCmd) return;
   client.publish(pub_topic, payload, {qos:1});
@@ -68,7 +67,7 @@ client.on("error", (err)=>{
   statusDom.innerText = "❌ 连接异常:"+err;
 });
 client.on("close", ()=>{
-  statusDom.innerText = "⚠️ 连接断开，等待重连";
+  statusDom.innerText = "⚠️ 连接断开";
   setTimeout(()=>client.reconnect(),2000);
 });
 </script>
