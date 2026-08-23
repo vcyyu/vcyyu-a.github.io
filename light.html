@@ -56,7 +56,7 @@ const client = mqtt.connect(url, {
   username: mqtt_user,
   password: mqtt_pwd,
   keepalive: 45, // 心跳保活45秒，维持长连接
-  reconnectPeriod: 3000, // 断连自动3秒重连
+  reconnectPeriod: 1000, // 断连自动3秒重连
   clean: true
 });
 
