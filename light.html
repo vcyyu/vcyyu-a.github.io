@@ -11,53 +11,50 @@
     margin:16px;
     background:#111;
     color:#fff;
-    /* 让按钮更容易被光标指示，无额外干扰 */
   }
-  .box{
-    max-width:520px;
-    margin:0 auto;
-  }
+  .box{ max-width:520px; margin:0 auto; }
   .info{
-    padding:12px;
-    background:#222;
-    font-size:16px;
-    margin-bottom:15px;
-    border-radius:8px;
+    padding:12px; background:#222; font-size:16px;
+    margin-bottom:15px; border-radius:8px;
   }
   .btn-grid{
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
     gap:10px;
-    /* 光标用 outline 实现，不用 border 以免布局跳动 */
   }
   button{
     padding:16px 0;
-    border:0;
-    border-radius:8px;
-    font-size:17px;
-    color:#fff;
-    cursor:pointer;
+    border:0; border-radius:8px;
+    font-size:17px; color:#fff; cursor:pointer;
     transition: outline 0.1s ease, box-shadow 0.1s ease;
-    outline: 2px solid transparent;   /* 占位，避免布局移动 */
+    outline: 2px solid transparent;
     outline-offset: 2px;
     box-shadow: 0 0 0 0 rgba(255,255,255,0);
-    /* 光标默认不可见 */
   }
-  /* 被选中的按钮——低调但可见的光标 (细虚线+微光晕) */
   button.cursor-active {
     outline: 2px solid rgba(255, 255, 255, 0.55);
     outline-offset: 3px;
     box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.2);
-    transition: outline 0.1s, box-shadow 0.1s;
   }
-  /* 关灯按钮特有的样式（原有） */
-  button[style*="background:#333"] {
-    background: #333 !important; /* 保留原有，但用!important覆盖可能的内联 */
-  }
-  /* 确保光标在黑色/深色背景上也可见 */
   button.cursor-active {
-    outline-color: rgba(255, 255, 266, 0.6); /* 低调暖金色，比纯白柔和但可见 */
+    outline-color: rgba(255, 255, 255, 0.6);
     box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.25);
+  }
+  .btn-breath {
+    background: linear-gradient(135deg,#ff6b6b,#4ecdc4) !important;
+    color:#fff !important;
+  }
+  .btn-rainbow {
+    background: linear-gradient(90deg,#ff0000,#ff8000,#ffff00,#00ff00,#00ffff,#0000ff,#8000ff) !important;
+    color:#fff !important;
+    text-shadow: 0 0 4px #000;
+  }
+  /* 提示信息 */
+  #hint {
+    color:#ffaa00;
+    font-size:13px;
+    margin-top:10px;
+    min-height:18px;
   }
 </style>
 </head>
@@ -67,21 +64,26 @@
 <div class="info">连接状态：<span id="status">未连接</span></div>
 
 <div class="btn-grid" id="buttonGrid">
-  <!-- R,G,B 格式，适配ESP GRB模式 -->
-  <button onclick="sendRGB('255,0,0')" style="background:#ff2222;">红</button>
-  <button onclick="sendRGB('255,50,0')" style="background:#ff7800;">橙</button>
-  <button onclick="sendRGB('255,255,0')" style="background:#ffdd00;color:#000;">黄</button>
-  <button onclick="sendRGB('0,255,0')" style="background:#00c030;">绿</button>
-  <button onclick="sendRGB('0,255,250')" style="background:#00ffff;">青</button>
-  <button onclick="sendRGB('0,0,255')" style="background:#0000ff;">蓝</button>
-  <button onclick="sendRGB('255,0,255')" style="background:#8000ff;">紫</button>
-  <button onclick="sendRGB('166,166,166')" style="background:#f8f8f8;color:#000;">白</button>
-  <button onclick="sendRGB('255,35,30')" style="background:#FFC0CB;">粉</button>
-  <button onclick="sendRGB('40,180,220')" style="background:#28B4DC;">青蓝</button>
-  <button onclick="sendRGB('0,255,55')" style="background:#00FF37;">青绿</button>
-  <button onclick="sendRGB('110,120,127')" style="background:#DCF0FF;">冷白</button>
-  <button onclick="sendRGB('0,0,0')" style="background:#333;grid-column:1/4;" id="offButton">关灯</button>
+  <!-- 静态颜色：加 data-color 属性，方便读取 -->
+  <button class="color-btn" data-color="255,0,0"   onclick="sendRGB('255,0,0')"   style="background:#ff2222;">红</button>
+  <button class="color-btn" data-color="255,50,0"  onclick="sendRGB('255,50,0')"  style="background:#ff7800;">橙</button>
+  <button class="color-btn" data-color="255,255,0" onclick="sendRGB('255,255,0')" style="background:#ffdd00;color:#000;">黄</button>
+  <button class="color-btn" data-color="0,255,0"   onclick="sendRGB('0,255,0')"   style="background:#00c030;">绿</button>
+  <button class="color-btn" data-color="0,255,250" onclick="sendRGB('0,255,250')" style="background:#00ffff;">青</button>
+  <button class="color-btn" data-color="0,0,255"   onclick="sendRGB('0,0,255')"   style="background:#0000ff;">蓝</button>
+  <button class="color-btn" data-color="255,0,255" onclick="sendRGB('255,0,255')" style="background:#8000ff;">紫</button>
+  <button class="color-btn" data-color="166,166,166" onclick="sendRGB('166,166,166')" style="background:#f8f8f8;color:#000;">白</button>
+  <button class="color-btn" data-color="255,35,30" onclick="sendRGB('255,35,30')" style="background:#FFC0CB;">粉</button>
+  <button class="color-btn" data-color="40,180,220" onclick="sendRGB('40,180,220')" style="background:#28B4DC;">青蓝</button>
+  <button class="color-btn" data-color="0,255,55"  onclick="sendRGB('0,255,55')"  style="background:#00FF37;">青绿</button>
+  <button class="color-btn" data-color="110,120,127" onclick="sendRGB('110,120,127')" style="background:#DCF0FF;">冷白</button>
+
+  <!-- 动态效果 -->
+  <button class="btn-breath" onclick="sendBreath()">呼吸灯</button>
+  <button class="btn-rainbow" onclick="sendRainbow()">彩虹</button>
+  <button onclick="sendRGB('0,0,0')" style="background:#333;" id="offButton">关灯</button>
 </div>
+<div id="hint"></div>
 </div>
 
 <script>
@@ -99,98 +101,100 @@
     clientId: clientId,
     username: mqtt_user,
     password: mqtt_pwd,
-    keepalive: 45,        // 心跳保活45秒
-    reconnectPeriod: 1000, // 断连重连1秒
+    keepalive: 45,
+    reconnectPeriod: 1000,
     clean: true
   });
 
   const statusDom = document.getElementById("status");
+  const hintDom = document.getElementById("hint");
 
-  // ---------- 光标追踪核心 ----------
-  // 当前激活光标所在的按钮 (DOM元素)
-  let activeCursorButton = null;
+  // ---------- 光标追踪 ----------
+  // 注意：只有"静态颜色按钮"才会更新 activeColorButton，
+  // 呼吸灯/彩虹/关灯按钮不覆盖，防止呼吸灯基色被错误覆盖
+  let activeColorButton = null;
+  let lastColor = null;   // 最近一次有效的静态颜色（"R,G,B" 字符串）
 
-  // 清除所有按钮的光标class
   function removeAllCursorClasses() {
     document.querySelectorAll('button').forEach(btn => {
       btn.classList.remove('cursor-active');
     });
   }
 
-  // 设置光标到指定按钮
   function setCursorToButton(button) {
     if (!button) return;
-    // 移除其他按钮的光标，只保留一个高亮
     removeAllCursorClasses();
     button.classList.add('cursor-active');
-    activeCursorButton = button;
   }
 
-  // 获取所有按钮 (排除可能非控制按钮，但这里所有按钮都是控制按钮)
-  const allButtons = document.querySelectorAll('button');
-  
-  // 方式1：监听每个按钮的点击事件，设置光标（确保点击时立即显示）
-  // 方式2：用事件委托在btn-grid上（更高效），但考虑到按钮点击需要执行sendRGB，这里用委托会干扰吗？不会，
-  // 但是我们又不想影响原有onclick，所以直接用独立的事件监听不影响原有的onclick。
-  // 使用mousedown或者click都可以，用click更符合点击完成感觉，但视觉上点击反馈用mousedown更快。
-  // 为了跟“点击”同步，用click；但如果快速点击会有延迟感？用mousedown可以即使用户按下就显示光标，但可能会在拖动时误触。
-  // 为了用户体验，用mousedown更好，视觉上光标瞬间移动。
-  // 但题目要求“点击哪个按钮光标会停留在哪个按钮上”，mousedown也是按下即响应，合理。
-  // 同时为了兼容移动端touch，click也可以，但mousedown在移动端可能不触发，所以还需要touchstart。使用pointerdown最通用。
-  // 不过简单起见，使用 'click' 也足够，但移动端click有300ms延迟，视觉上不跟手。我们采用pointerdown来兼顾。
-  // 现代浏览器都支持pointerdown。
-  
-  // 给所有按钮添加pointerdown监听（不影响原有onclick）
-  allButtons.forEach(btn => {
-    // 移除可能已有的监听，避免重复添加（初始化时只执行一次，但为了健壮）
-    // 这里使用一个标记属性确保只添加一次，但多次执行也没关系，同一个函数引用只会添加一次
-    if (!btn._hasCursorListener) {
-      btn.addEventListener('pointerdown', function(e) {
-        // 设置光标到当前按钮
-        setCursorToButton(this);
-      });
-      // 同时保留click也设置一遍，确保键盘激活等场景
-      btn.addEventListener('click', function(e) {
-        // 防止重复设置但无害
-        setCursorToButton(this);
-      });
-      btn._hasCursorListener = true;
-    }
+  function setHint(text) {
+    hintDom.innerText = text || "";
+  }
+
+  // 给所有按钮绑光标显示，但只有 .color-btn 才更新 lastColor
+  document.querySelectorAll('button').forEach(btn => {
+    const handler = function() {
+      setCursorToButton(this);
+      if (this.classList.contains('color-btn')) {
+        const c = this.getAttribute('data-color');
+        if (c && c !== '0,0,0') {
+          lastColor = c;
+          activeColorButton = this;
+          setHint("");   // 清除提示
+        }
+      }
+    };
+    btn.addEventListener('pointerdown', handler);
+    btn.addEventListener('click', handler);
   });
 
-  // 额外处理：如果按钮是通过键盘（Tab+Enter）激活，click事件会触发，光标也会更新，没问题。
-  
-  // 初始化：如果没有任何按钮被选中，可以默认选中“关灯”或者第一个？
-  // 但题目未要求默认光标，可以不加，但为了体验，可以选择默认选中第一个按钮？但会让人误以为点击了。
-  // 不加默认光标，完全根据用户点击。如果希望页面打开时光标就存在，可以选中第一个按钮，但可能不是用户意图。
-  // 保守：不默认选中。也可以选择“关灯”按钮？还是保持干净。
-  // 但考虑到一些用户可能需要知道光标功能的存在，可以在页面说明？没必要。
-  // 如果在移动端，用户可能看不到光标？我们同样支持。
-  
-  // 另外，防止页面其他点击清除光标，可以监听document的click，但如果点击非按钮区域，光标应该消失吗？
-  // 题目要求“点击哪个按钮光标会停留在哪个按钮上”，暗示点按钮才移动光标，如果点其他地方，光标可以保留或消失？
-  // 通常光标追踪是跟随点击的按钮，如果点击空白，光标保留在上次按钮更符合“停留在”的描述。
-  // 所以不添加全局清除。就保留在最后一个按钮。
-  
-  // 但是有一种情况：点击按钮触发了MQTT发送，但光标同时移动，没问题。
-
-  // 初始化页面没有光标，可选择第一个按钮？不做了。
-
-  // 此外，如果按钮因为某些原因动态改变，可能需要重新绑定，但这里静态页面无需担心。
-
-  // 优化：确保"关灯"按钮的光标样式可见（它在深色背景上，光标用淡金色可见）
-  // 已在CSS中处理。
-
-  // ---------- 原有功能 ----------
+  // ---------- 功能函数 ----------
   function sendRGB(payload) {
-    // 发送MQTT指令
+    if (!client.connected) {
+      setHint("MQTT 未连接，请稍后重试");
+      return;
+    }
     client.publish(pub_topic, payload, {qos:1});
+
+    // 维护 lastColor
+    if (payload === '0,0,0') {
+      // 关灯 → 清空有效颜色
+      lastColor = null;
+      setHint("已关灯，请先选颜色再点呼吸灯");
+    } else {
+      lastColor = payload;
+      setHint("");
+    }
   }
 
-  // 将sendRGB挂载到window，因为按钮onclick会调用
-  window.sendRGB = sendRGB;
+  // 呼吸灯：必须有有效颜色才能用
+  function sendBreath() {
+    if (!client.connected) {
+      setHint("MQTT 未连接，请稍后重试");
+      return;
+    }
+    if (!lastColor) {
+      setHint("⚠️ 请先选择一种颜色，再点呼吸灯");
+      return;
+    }
+    client.publish(pub_topic, "BREATH," + lastColor, {qos:1});
+    setHint("呼吸灯：" + lastColor);
+  }
 
-  // MQTT连接状态监听
+  function sendRainbow() {
+    if (!client.connected) {
+      setHint("MQTT 未连接，请稍后重试");
+      return;
+    }
+    client.publish(pub_topic, "RAINBOW", {qos:1});
+    setHint("彩虹渐变");
+  }
+
+  window.sendRGB = sendRGB;
+  window.sendBreath = sendBreath;
+  window.sendRainbow = sendRainbow;
+
+  // MQTT 状态
   client.on("connect", () => {
     statusDom.innerText = "✅ MQTT已连接";
   });
@@ -200,19 +204,6 @@
   client.on("close", () => {
     statusDom.innerText = "⚠️ 连接断开，自动重连";
   });
-
-  // 可选：如果需要在页面加载完成后高亮某个按钮？不。
-  // 但可以保证光标在点击时立即显示。
-  // 注意：pointerdown 在点击时可能触发在点击事件之前，不影响MQTT发送（发送在click里）。
-  // 如果用户按下按钮但未松开（然后移出），光标会保留在按钮上，符合预期。松开后click可能触发也可能不触发，但光标已设置。
-  // 更精准的做法是用click，但会稍微延迟。我们已同时使用pointerdown和click，确保光标可见。
-  
-  // 额外小细节：如果点击按钮但onclick执行时间长，光标也实时切换了，很好。
-  
-  // 确保对于移动端 Safari 等，pointerdown 也支持。即使不支持也会有 click 回退。
-  // 但如果不支持pointerdown，只监听click。没问题。
-
-  // 为了避免在按钮内部滑动时误触光标（但极少），可忽略。
 </script>
 </body>
 </html>
