@@ -12,9 +12,10 @@
 - 1000μF电解电容（电源滤波）
 
 ## 🔌 硬件接线
-1. WS2812 数据引脚 → ESP8266 DATA_PIN
-2. WS2812 GND 必须与ESP开发板 **共地**（重中之重，避免只亮第一颗灯）
-3. OLED SDA → D2，SCL → D1
+1. WS2812 数据引脚 → ESP8266 DATA_PIN（GPIO15）
+2. WS2812 GND 必须与ESP开发板 **共地**
+3. OLED SDA → D2（GPIO4），SCL → D1（GPIO5）
+4. 按键KEY_PIN → ESP8266 D6(GPIO12)
 > ⚠️ 长灯带建议灯带单独外接5V电源，不要依靠开发板供电
 
 ## ⚙️ 服务端环境
@@ -28,3 +29,17 @@ MQTT平台：EMQX Cloud Serverless
 采用纯文本字符串下发RGB指令，格式：
 `R,G,B`
 示例：
+if (r == 0 && g == 0 && b == 0) return "OFF";
+  if (r == 255 && g == 0 && b == 0) return "RED";
+  if (r == 255 && g == 50 && b == 0) return "ORANGE";
+  if (r == 255 && g == 255 && b == 0) return "YELLOW";
+  if (r == 0 && g == 255 && b == 0) return "GREEN";
+  if (r == 0 && g == 255 && b == 250) return "CYAN";
+  if (r == 0 && g == 0 && b == 255) return "BLUE";
+  if (r == 255 && g == 0 && b == 255) return "PURPLE";
+  if (r == 166 && g == 166 && b == 166) return "WHITE";
+  if (r == 255 && g == 35 && b == 30) return "PINK";
+  if (r == 40 && g == 180 && b == 220) return "AZURE";
+  if (r == 0 && g == 255 && b == 55) return "SPRING";
+  if (r == 110 && g == 120 && b == 127) return "COOLWHITE";
+  return "UNKNOWN";
