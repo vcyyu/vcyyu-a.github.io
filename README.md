@@ -44,3 +44,5 @@ if (r == 0 && g == 0 && b == 0) return "OFF";
   if (r == 110 && g == 120 && b == 127) return "COOLWHITE";
   return "UNKNOWN";
 <img width="733" height="801" alt="06ac054c-7894-4b51-a977-3d68c208d6d0" src="https://github.com/user-attachments/assets/79bc385b-69d8-45ee-814e-e2889f27b42a" />
+<img width="1080" height="1440" alt="微信图片_20261008185249_194_314" src="https://github.com/user-attachments/assets/28b01a79-3935-4a08-a7f1-5aac5bf9089f" />
+<img width="1080" height="1440" alt="微信图片_20261008185246_193_314" src="https://github.com/user-attachments/assets/a7e9b9bb-6541-40da-ab62-820282744808" />
