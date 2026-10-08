@@ -43,3 +43,4 @@ if (r == 0 && g == 0 && b == 0) return "OFF";
   if (r == 0 && g == 255 && b == 55) return "SPRING";
   if (r == 110 && g == 120 && b == 127) return "COOLWHITE";
   return "UNKNOWN";
+<img width="733" height="801" alt="06ac054c-7894-4b51-a977-3d68c208d6d0" src="https://github.com/user-attachments/assets/79bc385b-69d8-45ee-814e-e2889f27b42a" />
