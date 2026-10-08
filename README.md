@@ -1,4 +1,4 @@
-# ESP8266 MQTT 远程RGB灯带控制系统
+# ESP8266 MQTT 远程RGB灯带控制系统（LightMQTT）
 ## 📖 项目介绍
 基于ESP8266(ESP-12F)、WS2812幻彩灯带、EMQX Cloud MQTT服务搭建的物联网灯光控制系统。
 公网MQTT通信，支持HTML网页、MQTTX客户端远程下发指令控制灯带颜色；搭载OLED屏幕实时显示当前灯光颜色名称。
